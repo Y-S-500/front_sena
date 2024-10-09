@@ -1,0 +1,75 @@
+<div class="card card-height-100">
+  <form [formGroup]="frmCompetencia" class="border shadow-lg">
+    <div class="modal-header bg-primary">
+      <h6 class="text-white">{{ titulo }}</h6>
+    </div>
+    <div class="modal-body p-4">
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label>Nombre</label>
+          <input type="text" class="form-control" formControlName="Nombre">
+          <app-forms-messages [error]="frmCompetencia.get('Nombre')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label>Código</label>
+          <input type="text" class="form-control" formControlName="Codigo">
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label>Fase</label>
+          <ng-select [items]="listFase" bindLabel="nombre" bindValue="id" formControlName="Fase"></ng-select>
+          <app-forms-messages [error]="frmCompetencia.get('Fase')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label>Tipo</label>
+          <ng-select [items]="listTipo" bindLabel="nombre" bindValue="id" formControlName="Tipo"></ng-select>
+          <app-forms-messages [error]="frmCompetencia.get('Tipo')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3">
+          <label>Proyecto</label>
+          <div class="ng-autocomplete">
+            <ng-autocomplete
+              [data]="listProyectos()"
+              [searchKeyword]="keyword"
+              placeholder="Seleccione un proyecto"
+              (selected)="selectEvent($event)"
+              (inputChanged)="onChangeSearch($event)"
+              (inputFocused)="onFocused($event)"
+              [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <!-- Plantilla para los elementos del autocomplete -->
+            <ng-template #itemTemplate let-item>
+              <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+            </ng-template>
+
+            <!-- Plantilla para cuando no se encuentran resultados -->
+            <ng-template #notFoundTemplate let-notFound>
+              <div class="p-2" [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+          <app-forms-messages [error]="frmCompetencia.get('ProyectoId')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+      </div>
+
+      <br>
+      <div>
+        <div class="col-sm-3 col-md-3 col-lg-3 form-check form-switch" *ngIf="id > 0">
+          <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+          <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row float-right">
+        <div class="col-md-12">
+          <app-botones [botones]="botones" (eventSave)="save()" (eventCancel)="cancel()"></app-botones>
+        </div>
+      </div>
+    </div>
+    <br>
+  </form>
+</div>

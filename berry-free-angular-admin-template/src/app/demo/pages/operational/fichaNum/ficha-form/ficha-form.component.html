@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nueva ficha</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmFicha">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" type="text" formControlName="Nombre" class="form-control" placeholder="Ingrese el nombre">
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Código</label>
+      <input id="descripcion" formControlName="Codigo" class="form-control" placeholder="Ingrese el codigo">
+    </div>
+
+    <div class="mb-3">
+      <label>Programa</label>
+      <div class="ng-autocomplete">
+        <ng-autocomplete
+          [data]="listPrograma()"
+          [searchKeyword]="keyword"
+          placeholder="Seleccione criterio"
+          (selected)="selectEvent($event,'ProgramaId')"
+          (inputChanged)="onChangeSearch($event)"
+          (inputFocused)="onFocused($event)"
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <!-- Plantilla para los elementos del autocomplete -->
+        <ng-template #itemTemplate let-item>
+          <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <!-- Plantilla para cuando no se encuentran resultados -->
+        <ng-template #notFoundTemplate let-notFound>
+          <div class="p-2" [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+      <app-forms-messages [error]="frmFicha.get('CategoriaId')" [statusForm]="statusForm"></app-forms-messages>
+    </div>
+
+
+    <div class="mb-3" *ngIf="Id>0" >
+      <label for="Activo">Activo</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+</div>

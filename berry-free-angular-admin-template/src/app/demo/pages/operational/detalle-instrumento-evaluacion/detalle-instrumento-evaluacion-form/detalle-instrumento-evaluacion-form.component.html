@@ -1,0 +1,104 @@
+<div class="card card-height-100">
+  <form [formGroup]="frmDetalleEvaluacion" class="border shadow-lg">
+      <div class="modal-header bg-primary">
+          <h6 class="text-white">{{ titulo }}</h6>
+      </div>
+      <div class="modal-body p-4">
+          <div class="row">
+            <!-- Primera fila: Items y Cumple -->
+            <div class="col-md-3 mb-3">
+              <label>Items</label>
+              <div class="ng-autocomplete">
+                <ng-autocomplete
+                  [data]="listItems()"
+                  [searchKeyword]="keyword2"
+                  placeholder="Seleccione un proyecto"
+                  (selected)="selectEvent($event,'item')"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate">
+                </ng-autocomplete>
+
+                <!-- Plantilla para los elementos del autocomplete -->
+                <ng-template #itemTemplate let-item>
+                  <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+                </ng-template>
+
+                <!-- Plantilla para cuando no se encuentran resultados -->
+                <ng-template #notFoundTemplate let-notFound>
+                  <div class="p-2" [innerHTML]="notFound"></div>
+                </ng-template>
+              </div>
+              <app-forms-messages [error]="frmDetalleEvaluacion.get('ProyectoId')" [statusForm]="statusForm"></app-forms-messages>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label>Instrumento Evaluación</label>
+              <div class="ng-autocomplete">
+                <ng-autocomplete
+                  [data]="listInstrumentoEvaluacion()"
+                  [searchKeyword]="keyword"
+                  placeholder="Seleccione un instrumento"
+                  (selected)="selectEvent($event,'instrumento')"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate">
+                </ng-autocomplete>
+
+                <!-- Plantilla para los elementos del autocomplete -->
+                <ng-template #itemTemplate let-item>
+                  <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+                </ng-template>
+
+                <!-- Plantilla para cuando no se encuentran resultados -->
+                <ng-template #notFoundTemplate let-notFound>
+                  <div class="p-2" [innerHTML]="notFound"></div>
+                </ng-template>
+              </div>
+              <app-forms-messages [error]="frmDetalleEvaluacion.get('ProyectoId')" [statusForm]="statusForm"></app-forms-messages>
+            </div>
+
+            <div class="col-md-2 mb-2">
+              <label>Fecha de calificación</label>
+              <input type="date" class="form-control" formControlName="FechaCalificacion">
+            </div>
+            <app-forms-messages [error]="frmDetalleEvaluacion.get('FechaCalificacion')" [statusForm]="statusForm"></app-forms-messages>
+          </div>
+          <br>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label>Observación</label>
+              <textarea type="text" class="form-control" formControlName="Observacion"></textarea>
+              <app-forms-messages [error]="frmDetalleEvaluacion.get('Observacion')" [statusForm]="statusForm"></app-forms-messages>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label for="">Cumple</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" formControlName="Cumple" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Si/No</label>
+              </div>
+            </div>
+            <div class="col-md-3 mb-2">
+              <label for="Activo">Activo</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+              </div>
+            </div>
+
+
+          </div>
+      </div>
+
+      <div class="modal-footer">
+          <div class="row float-right">
+              <div class="col-md-12">
+                  <app-botones [botones]="botones" (eventSave)="save()" (eventCancel)="cancel()"></app-botones>
+              </div>
+          </div>
+      </div>
+      <br>
+    </form>
+</div>

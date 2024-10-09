@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nuevo programa</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmPrograma ">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" type="text" formControlName="Nombre" class="form-control" placeholder="Ingrese el nombre">
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Codigo</label>
+      <input id="nombre" type="text" formControlName="Codigo" class="form-control" placeholder="Ingrese el nombre">
+    </div>
+    <div class="mb-3" *ngIf="Id>0" >
+      <label for="Activo">Activo</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+</div>

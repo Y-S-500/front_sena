@@ -1,0 +1,87 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nuevo item</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmItem">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Titulo</label>
+      <input id="nombre" type="text" formControlName="Titulo" class="form-control" placeholder="Ingrese el nombre">
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea id="descripcion" formControlName="Descripcion" class="form-control" placeholder="Ingrese la descripción"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Criterio de Evaluación</label>
+      <div class="ng-autocomplete">
+        <ng-autocomplete
+          [data]="listCriterioEvaluacion()"
+          [searchKeyword]="keyword"
+          placeholder="Seleccione criterio"
+          (selected)="selectEvent($event,'CriterioEvaluacionId')"
+          (inputChanged)="onChangeSearch($event)"
+          (inputFocused)="onFocused($event)"
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <!-- Plantilla para los elementos del autocomplete -->
+        <ng-template #itemTemplate let-item>
+          <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <!-- Plantilla para cuando no se encuentran resultados -->
+        <ng-template #notFoundTemplate let-notFound>
+          <div class="p-2" [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+      <app-forms-messages [error]="frmItem.get('CategoriaId')" [statusForm]="statusForm"></app-forms-messages>
+    </div>
+    <div class="mb-3">
+      <label>Categoria</label>
+      <div class="ng-autocomplete">
+        <ng-autocomplete
+          [data]="listCategoria()"
+          [searchKeyword]="keyword"
+          placeholder="Seleccione una categoaria"
+          (selected)="selectEvent($event,'CategoriaId')"
+          (inputChanged)="onChangeSearch($event)"
+          (inputFocused)="onFocused($event)"
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <!-- Plantilla para los elementos del autocomplete -->
+        <ng-template #itemTemplate let-item>
+          <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <!-- Plantilla para cuando no se encuentran resultados -->
+        <ng-template #notFoundTemplate let-notFound>
+          <div class="p-2" [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+      <app-forms-messages [error]="frmItem.get('CategoriaId')" [statusForm]="statusForm"></app-forms-messages>
+
+
+    </div>
+
+    <div class="mb-3" *ngIf="Id>0" >
+      <label for="Activo">Activo</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+</div>

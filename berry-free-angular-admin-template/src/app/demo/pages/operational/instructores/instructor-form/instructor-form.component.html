@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nuevo instructor</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmItem">
+    <div class="mb-3">
+      <label for="codigo" class="form-label">Codigo</label>
+      <input id="codigo" type="text" formControlName="Codigo" class="form-control" placeholder="Ingrese el codigo">
+    </div>
+    <div class="mb-3">
+      <label>Persona</label>
+      <div class="ng-autocomplete">
+        <ng-autocomplete
+          [data]="listPersona()"
+          [searchKeyword]="keyword"
+          placeholder="Seleccione criterio"
+          (selected)="selectEvent($event)"
+          (inputChanged)="onChangeSearch($event)"
+          (inputFocused)="onFocused($event)"
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+
+        <!-- Plantilla para los elementos del autocomplete -->
+        <ng-template #itemTemplate let-item>
+          <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <!-- Plantilla para cuando no se encuentran resultados -->
+        <ng-template #notFoundTemplate let-notFound>
+          <div class="p-2" [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+      <app-forms-messages [error]="frmItem.get('PersonaId')" [statusForm]="statusForm"></app-forms-messages>
+    </div>
+
+    <div class="mb-3" *ngIf="Id>0" >
+      <label for="Activo">Activo</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+</div>

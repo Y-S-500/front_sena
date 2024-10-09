@@ -1,0 +1,65 @@
+<div class="card card-height-100">
+  <form [formGroup]="frmResultadoAprendiz" class="border shadow-lg">
+    <div class="modal-header bg-primary">
+      <h6 class="text-white">{{ titulo }}</h6>
+    </div>
+    <div class="modal-body p-4">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label>Nombre</label>
+          <input type="text" class="form-control" formControlName="Nombre">
+          <app-forms-messages [error]="frmResultadoAprendiz.get('Nombre')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+        <div class="col-md-4">
+          <label>Código</label>
+          <input type="text" class="form-control" formControlName="Codigo">
+          <app-forms-messages [error]="frmResultadoAprendiz.get('Codigo')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+        <div class="col-md-4" *ngIf="id>0">
+          <label>Activo</label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" formControlName="Activo" type="checkbox" id="flexSwitchCheckChecked" [checked]="id > 0">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label>Competencia</label>
+          <div class="ng-autocomplete">
+            <ng-autocomplete
+              [data]="listCompetencia()"
+              [searchKeyword]="keyword"
+              placeholder="Seleccione un proyecto"
+              (selected)="selectEvent($event)"
+              (inputChanged)="onChangeSearch($event)"
+              (inputFocused)="onFocused($event)"
+              [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <!-- Plantilla para los elementos del autocomplete -->
+            <ng-template #itemTemplate let-item>
+              <a class="block p-2 hover:bg-gray-100" [innerHTML]="item.name"></a>
+            </ng-template>
+
+            <!-- Plantilla para cuando no se encuentran resultados -->
+            <ng-template #notFoundTemplate let-notFound>
+              <div class="p-2" [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+          <app-forms-messages [error]="frmResultadoAprendiz.get('ProyectoId')" [statusForm]="statusForm"></app-forms-messages>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row w-100">
+        <div class="col-md-12 text-end">
+          <app-botones [botones]="botones" (eventSave)="save()" (eventCancel)="cancel()"></app-botones>
+        </div>
+      </div>
+    </div>
+    <br>
+  </form>
+</div>

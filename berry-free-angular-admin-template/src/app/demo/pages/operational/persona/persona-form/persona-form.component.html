@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <h5 class="modal-title">Nuevo persona</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmPersona">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombres</label>
+      <input id="nombre" type="text" formControlName="Nombres" class="form-control" placeholder="Ingrese los nombres">
+      <app-forms-messages [error]="frmPersona.get('Nombres')" [statusForm]="statusForm"></app-forms-messages>
+
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Apellidos</label>
+      <input id="nombre" type="text" formControlName="Apellidos" class="form-control" placeholder="Ingrese los apellidos">
+      <app-forms-messages [error]="frmPersona.get('Apellidos')" [statusForm]="statusForm"></app-forms-messages>
+
+    </div>
+    <div class="mb-3">
+      <label for="documento" class="form-label">Tipo de Documento</label>
+      <select formControlName="TipoId" id="documento" class="form-select">
+        <option value="">Seleccione un tipo de documento</option>
+        <option value="CC">Cédula de Ciudadanía</option>
+        <option value="TI">Tarjeta de Identidad</option>
+        <option value="RC">Registro Civil</option>
+        <option value="PA">Pasaporte</option>
+        <option value="CE">Cédula de Extranjería</option>
+        <option value="PEP">Permiso Especial de Permanencia</option>
+        <option value="NIT">NIT (Número de Identificación Tributaria)</option>
+      </select>
+      <app-forms-messages [error]="frmPersona.get('TipoId')" [statusForm]="statusForm"></app-forms-messages>
+
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Numero de Telefono</label>
+      <input id="nombre" type="text" maxlength="10" (keypress)="onlyNumber($event)" formControlName="Telefono" class="form-control" placeholder="Ingrese el numero telefonico">
+      <app-forms-messages [error]="frmPersona.get('Telefono')" [statusForm]="statusForm"></app-forms-messages>
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Numero Documento</label>
+      <input id="nombre" type="text" maxlength="10" (keypress)="onlyNumber($event)" formControlName="NumeroId" class="form-control" placeholder="Ingrese el numero de indentificación">
+      <app-forms-messages [error]="frmPersona.get('NumeroId')" [statusForm]="statusForm"></app-forms-messages>
+    </div>
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Email</label>
+      <input id="nombre" type="email"  formControlName="Email" class="form-control" placeholder="Ingrese el Email">
+      <app-forms-messages [error]="frmPersona.get('Email')" [statusForm]="statusForm"></app-forms-messages>
+
+    </div>
+
+    <div class="mb-3" *ngIf="Id>0" >
+      <label for="Activo">Activo</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="Activo" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+</div>
