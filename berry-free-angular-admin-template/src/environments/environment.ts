@@ -5,8 +5,8 @@
 import packageInfo from '../../package.json';
 
 export const environment = {
+  production: false,
   appVersion: packageInfo.version,
-  production: false
 };
 
 /*

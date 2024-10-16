@@ -27,15 +27,15 @@
 <ng-template #isDropdown>
   <div #botonesDropdown class="btn-group">
     <div role="group"  class="button-group " aria-label="Basic example">
-      <a title="Movimiento" class="btn mx-1 btn-outline-primary btn-dropdown-movimiento" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-movimiento')"><i class="fa-duotone fa-person-dolly" data-id="$id"></i> Movimiento</a>
-      <a title="Productos" class="btn mx-1 btn-outline-primary btn-dropdown-productos" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-producto')"><i class="fa-duotone fa-shirt" data-id="$id"></i> Productos</a>
-      <a title="Eliminar" class="btn mx-1 btn-outline-primary btn-dropdown-eliminar" data-id="$id" (click)="eventDelete.emit()" *ngIf="validateIfExists('btn-eliminar')"><i class="fa-duotone fa-trash-can" data-id="$id"></i> Eliminar</a>
-      <a title="Editar" class="btn mx-1 btn-outline-primary btn-dropdown-modificar" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-modificar')"><i class="fa-duotone fa-pen-to-square" data-id="$id"></i> Editar</a>
-      <a title="Imprimir Recibo" class="btn mx-1 btn-outline-primary btn-dropdown-Imprimir-tikect" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-Imprimir-tikect')"><i class="fa-duotone fa-print" data-id="$id"></i> Imprimir</a>
-      <a title="Editar" class="btn mx-1 btn-outline-primary btn-dropdown-modificarDetalleInventarioBodega" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-modificarDetalleInventarioBodega')"><i class="fa-duotone fa-pen-to-square" data-id="$id"></i> Editar</a>
-      <a title="Ver" class="btn mx-1 btn-outline-primary btn-dropdown-ver" data-id="$id" (click)="eventSee.emit()" *ngIf="validateIfExists('btn-ver')"><i class="fa-duotone fa-eye" data-id="$id"></i> Ver</a>
-      <a title="Cambiar contraseña" class="btn mx-1 btn-outline-primary btn-dropdown-contraseña" data-id="$id" (click)="eventChangePassword.emit()" *ngIf="validateIfExists('btn-cambiar-contraseña')" ><i class="fa-duotone fa-key" data-id="$id"></i> Cambiar Contraseña</a> 
-      <a title="Descargar" class="btn mx-1 btn-outline-primary btn-dropdown-descargar" data-id="$id" (click)="eventDowloand.emit()" *ngIf="validateIfExists('btn-descargar')" ><i class="fa-duotone fa-download" data-id="$id"></i> Descargar</a>
+      <a title="Movimiento" class="btn btn-sm btn-table mx-1 btn-dropdown-movimiento" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-movimiento')"><i class="fa-duotone fa-person-dolly" data-id="$id"></i> Movimiento</a>
+      <a title="Productos" class="btn btn-sm btn-table mx-1 btn-dropdown-productos" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-producto')"><i class="fa-duotone fa-shirt" data-id="$id"></i> Productos</a>
+      <a title="Editar" class="btn btn-sm btn-table mx-1 btn-dropdown-modificar" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-modificar')"><i class="fa-duotone fa-pen-to-square" data-id="$id"></i> Editar</a>
+      <a title="Eliminar" class="btn btn-sm btn-table mx-1 btn-dropdown-eliminar" data-id="$id" (click)="eventDelete.emit()" *ngIf="validateIfExists('btn-eliminar')"><i class="fa-duotone fa-trash-can" data-id="$id"></i> Eliminar</a>
+      <a title="Imprimir Recibo" class="btn btn-sm btn-table mx-1 btn-dropdown-Imprimir-tikect" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-Imprimir-tikect')"><i class="fa-duotone fa-print" data-id="$id"></i> Imprimir</a>
+      <a title="Editar" class="btn btn-sm btn-table mx-1 btn-dropdown-modificarDetalleInventarioBodega" data-id="$id" (click)="eventEdit.emit()" *ngIf="validateIfExists('btn-modificarDetalleInventarioBodega')"><i class="fa-duotone fa-pen-to-square" data-id="$id"></i> Editar</a>
+      <a title="Ver" class="btn btn-sm btn-table mx-1 btn-dropdown-ver" data-id="$id" (click)="eventSee.emit()" *ngIf="validateIfExists('btn-ver')"><i class="fa-duotone fa-eye" data-id="$id"></i> Ver</a>
+      <a title="Cambiar contraseña" class="btn btn-sm btn-table mx-1 btn-dropdown-contraseña" data-id="$id" (click)="eventChangePassword.emit()" *ngIf="validateIfExists('btn-cambiar-contraseña')" ><i class="fa-duotone fa-key" data-id="$id"></i> Cambiar Contraseña</a> 
+      <a title="Descargar" class="btn btn-sm btn-table mx-1 btn-dropdown-descargar" data-id="$id" (click)="eventDowloand.emit()" *ngIf="validateIfExists('btn-descargar')" ><i class="fa-duotone fa-download" data-id="$id"></i> Descargar</a>
     </div>
   </div>
 </ng-template>

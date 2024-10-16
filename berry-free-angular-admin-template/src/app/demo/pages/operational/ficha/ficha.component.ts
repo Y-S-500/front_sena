@@ -1,85 +1,113 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { BotonesComponent } from 'src/app/demo/general/botones/botones.component';
-import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { FichaModalComponent } from './ficha-modal/ficha-modal.component';
 import { GeneralParameterService } from 'src/app/demo/general/general.service';
 import { HelperService, Messages, MessageType } from 'src/app/demo/general/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
-
-import { BreadcrumbComponent } from 'src/app/demo/general/breadcrumb/breadcrumb.component';
 import { DatatableParameter } from 'src/app/demo/general/interfaces/datatable.parameters';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { LANGUAGE_DATATABLE } from 'src/app/demo/general/interfaces/datatable.language';
-import * as DataTables from 'datatables.net'; // This may vary depending on your project setup
-
-
+import { CommonModule } from '@angular/common';
+import { BreadcrumbComponent } from 'src/app/demo/general/breadcrumb/breadcrumb.component';
+import { Api, Config } from 'datatables.net';
 
 @Component({
   selector: 'app-ficha',
   standalone: true,
-  imports: [SharedModule,BotonesComponent,BreadcrumbComponent],
+  imports: [BreadcrumbComponent, DataTablesModule, BotonesComponent, CommonModule],
   templateUrl: './ficha.component.html',
   styleUrl: './ficha.component.scss'
 })
-export class FichaComponent {
+export class FichaComponent implements OnInit {
   title = "Listado de Aprendices";
-
   breadcrumb!: any[];
-  botones: String[] = ['btn-plantilla-productos','btn-importar-productos', 'btn-nuevo'];
+  botones: String[] = ['btn-plantilla-productos', 'btn-importar-productos', 'btn-nuevo'];
 
   public dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective;
-  dtOptions  = {};
-
+  dtOptions: Config = {};
+  @ViewChild('botonesDatatable') botonesDatatable!: BotonesComponent;
+  tableBotones: String[] = ['btn-modificar', 'btn-eliminar'];
 
   constructor(
-    public service : GeneralParameterService,
+    public service: GeneralParameterService,
     public helperService: HelperService,
     private modalService: NgbModal,
 
   ) {
-    this.breadcrumb = [{ name: `Inicio`, icon: `fa-duotone fa-house` }, { name: "Inventario", icon: "fa-duotone fa-boxes-stacked" }, { name: "Productos", icon: "fa-duotone fa-shirt" }];
+  }
+
+  ngOnInit(): void {
+    this.cargarLista();
+  }
+
+  ngAfterViewInit() {
+    this.dtTrigger.next(this.dtOptions);
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   nuevo() {
     this.helperService.redirectApp("/dashboard/inventario/productos/crear");
   }
 
-
   cargarLista() {
+    var dataTableParameter = new DatatableParameter(); dataTableParameter.pageNumber = ""; dataTableParameter.pageSize = ""; dataTableParameter.filter = ""; dataTableParameter.columnOrder = ""; dataTableParameter.directionOrder = ""; dataTableParameter.columnFilter = "";
     const that = this;
     this.dtOptions = {
-      dom: 'lfrtip',
+      dom: 'Blfrtip',
       processing: true,
       ordering: true,
       paging: true,
-      order: [0, 'desc'],
+      order: [0, "desc"],
       language: LANGUAGE_DATATABLE,
-      // data: this.Aprendices, // Datos que mostrarán en la tabla
+      ajax: (dataTablesParameters: any, callback: any) => {
+        this.service.datatable("Ficha", dataTableParameter).subscribe((res) => {
+          callback({
+            recordsTotal: res.data.length,
+            recordsFiltered: res.data.length,
+            draw: dataTablesParameters.draw,
+            data: res.data,
+          });
+        });
+      },
       columns: [
         {
-          title: 'Nombres',
-          data: 'Nombres',
+          title: 'Código',
+          data: 'codigo',
           className: 'text-center',
         },
         {
-          title: 'Apellidos',
-          data: 'Apellidos',
+          title: 'Nombre',
+          data: 'nombre',
           className: 'text-center',
         },
         {
-          title: 'Email',
-          data: 'Email',
+          title: 'Acciones',
+          data: 'id',
           className: 'text-center',
-        }
+          render: function (id: any) {
+            const boton = that.botonesDatatable;
+            return boton.botonesDropdown.nativeElement.outerHTML.split('$id').join(id);
+          }
+        },
       ],
+      drawCallback: () => {
+        $('.btn-dropdown-modificar')
+          .off()
+          .on('click', (event: any) => {
+            // function
+          });
+        $('.btn-dropdown-eliminar')
+          .off()
+          .on('click', (event: any) => {
+            this.deleteGeneric(event.currentTarget.dataset.id);
+          });
+      }
     };
-
-    // if (this.Aprendices.length > 0) {
-    //   this.uploadData = true;
-    // }
   }
 
   importarMasivo() {
@@ -91,9 +119,7 @@ export class FichaComponent {
 
     });
     modal.result.finally(() => {
-      setTimeout(() => {
-        // this.cargarLista();
-      }, 200);
+      this.refrescarTabla();
     });
   }
 
@@ -105,14 +131,14 @@ export class FichaComponent {
     link.remove();
   }
 
+  refrescarTabla() {
+    if (typeof this.dtElement.dtInstance != 'undefined') {
+      this.dtElement.dtInstance.then((dtInstance: Api) => {
+        dtInstance.ajax.reload();
+      });
+    }
+  }
 
-  // refrescarTabla() {
-  //   if (typeof this.dtElement.dtInstance != 'undefined') {
-  //     this.dtElement.dtInstance.then((dtInstance: DataTables.api) => {
-  //       dtInstance.ajax.reload()
-  //     });
-  //   }
-  // }
   deleteGeneric(id: any) {
     this.helperService.confirmDelete(() => {
       // Eliminar imagenes exixtente
@@ -131,7 +157,7 @@ export class FichaComponent {
         (response) => {
           if (response.status) {
             this.helperService.showMessage(MessageType.SUCCESS, Messages.DELETESUCCESS);
-            // this.refrescarTabla();
+            this.refrescarTabla();
           }
         },
         (error) => {

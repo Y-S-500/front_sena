@@ -8,9 +8,13 @@
         </div>
     </div>
     <div class="card-body" style="padding: 40px;">
-        <div class="table-responsive table-card">
-            <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                class="table table-bordered table-hover table-striped w-100"></table> -->
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="table table-bordered table-hover table-striped w-100"></table>
+                <app-botones #botonesDatatable [botones]="tableBotones" [dropdown]="true" [hidden]="true"></app-botones>
+            </div>
         </div>
     </div>
 </div>
+<br>

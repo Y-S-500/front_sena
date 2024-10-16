@@ -8,13 +8,11 @@ import { GeneralParameterService } from 'src/app/demo/general/general.service';
 import { DataSelectDto } from 'src/app/demo/general/interfaces/dataSelectDto';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
-import * as $ from 'jquery';
 import { RouterModule } from '@angular/router';
 import { FormsMessagesComponent } from 'src/app/demo/general/forms-messages/forms-messages.component';
 import { Subject } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { LANGUAGE_DATATABLE } from 'src/app/demo/general/interfaces/datatable.language';
-import * as DataTables from 'datatables.net'; // This may vary depending on your project setup
 
 
 
@@ -26,13 +24,13 @@ import * as DataTables from 'datatables.net'; // This may vary depending on your
     NgSelectModule,
     ReactiveFormsModule,
     DataTablesModule,
-    RouterModule,FormsMessagesComponent
+    RouterModule, FormsMessagesComponent
   ],
-   templateUrl: './ficha-modal.component.html',
+  templateUrl: './ficha-modal.component.html',
   styleUrls: ['./ficha-modal.component.css']
 })
 
-export class FichaModalComponent implements OnInit{
+export class FichaModalComponent implements OnInit {
   frmAprendices: FormGroup;
   statusForm: boolean = true
   botones = ['btn-cancelar'];
@@ -43,7 +41,7 @@ export class FichaModalComponent implements OnInit{
 
   public dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement!: DataTableDirective;
-  dtOptions: DataTables.Config  = {};
+  dtOptions = {};
 
   constructor(
     private service: GeneralParameterService,
@@ -139,7 +137,7 @@ export class FichaModalComponent implements OnInit{
   readFile(data: any) {
     this.Aprendices = [];
 
-    const requiredColumns = ["Nombres", "Apellidos", "Tipo Indentificación", "Numero Indentificación", "Numero Indentificación", "Email", ];
+    const requiredColumns = ["Nombres", "Apellidos", "Tipo Indentificación", "Numero Indentificación", "Numero Indentificación", "Email",];
     const headerRow = data[0];
 
 
@@ -167,14 +165,14 @@ export class FichaModalComponent implements OnInit{
           TipoId: element[2],
           NumeroId: element[3],
           FichaId: this.frmAprendices.controls["FichaId"].value,
-          Telefono:element[4] ,
-          Email:element[5],
+          Telefono: element[4],
+          Email: element[5],
           Activo: true
         };
-        if(element[0] !=null && element[1] !=null && element[2] !=null && element[3] !=null && element[4] !=null && element[5] !=null){
+        if (element[0] != null && element[1] != null && element[2] != null && element[3] != null && element[4] != null && element[5] != null) {
 
           this.Aprendices.push(aprendiz);
-        }else{
+        } else {
           Swal.fire({
             icon: 'info',
             title: 'El archivo no está completamente diligenciado',
@@ -197,7 +195,6 @@ export class FichaModalComponent implements OnInit{
   }
 
   cargarLista() {
-    const that = this;
     this.dtOptions = {
       dom: 'lfrtip',
       processing: true,
@@ -230,13 +227,11 @@ export class FichaModalComponent implements OnInit{
     }
   }
 
-
   redrawTable() {
-    if (this.dtElement && this.dtElement.dtInstance) {
-      // this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      //   dtInstance.destroy();
-      //   this.dtTrigger.next(this.dtOptions);
-      // });
+    if (typeof this.dtElement.dtInstance != 'undefined') {
+      this.dtElement.dtInstance.then((dtInstance: any) => {
+        dtInstance.ajax.reload();
+      });
     }
 
     if (this.Aprendices.length > 0) {

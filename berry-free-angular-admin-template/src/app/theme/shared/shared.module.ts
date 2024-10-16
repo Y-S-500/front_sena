@@ -12,7 +12,6 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 // bootstrap import
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
-    DataTablesModule,
     BreadcrumbsComponent,
     NgbDropdownModule,
     NgbNavModule,
