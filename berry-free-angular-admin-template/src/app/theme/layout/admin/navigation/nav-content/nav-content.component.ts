@@ -27,15 +27,66 @@ export class NavContentComponent implements OnInit {
     private location: Location,
     private locationStrategy: LocationStrategy
   ) {
-    this.navigation = this.nav.get();
   }
 
   // Life cycle events
   ngOnInit() {
+
+
     if (this.windowWidth < 1025) {
       (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
     }
+    console.log(localStorage.getItem('Menu'));
+    this.navigation = this.restructureNavigationData();
   }
+
+
+
+   restructureNavigationData() {
+    // Parse the JSON data from localStorage
+    const rawData = JSON.parse(localStorage.getItem('Menu') || '[]');
+
+    // Create the base structure for NavigationItems
+    const NavigationItems = [
+      {
+        id: '',
+        title: '',
+        type: 'group',
+        icon: '',
+        children: []
+      }
+    ];
+
+    // Iterate through each module in the raw data
+    rawData.forEach(module => {
+      const moduleItem = {
+        id: module.nombre,
+        title: module.nombre,
+        type: 'collapse',
+        icon: module.icon,
+        children: []
+      };
+
+      // Add views as children of the module
+      module.vistas.forEach(vista => {
+        moduleItem.children.push({
+          id: vista.nombre,
+          title: vista.nombre,
+          type: 'item',
+          url: vista.ruta,
+          target: true,
+          breadcrumbs: false
+        });
+      });
+
+      // Add the module to the root children
+      NavigationItems[0].children.push(moduleItem);
+    });
+
+    return NavigationItems;
+  }
+
+
 
   fireOutClick() {
     let current_url = this.location.path();

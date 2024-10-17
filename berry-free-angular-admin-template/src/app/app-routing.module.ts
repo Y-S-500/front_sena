@@ -1,14 +1,25 @@
 import { ResultadoAprendizFormComponent } from './demo/pages/operational/resultadoAprendiz/resultado-aprendiz-form/resultado-aprendiz-form.component';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import {HttpClientModule } from '@angular/common/http';
+import LoginComponent from './demo/pages/authentication/login/login.component';
 
 const routes: Routes = [
+{
+  path: '',
+  redirectTo: 'sign-in',  // Aquí se redirige al login por defecto
+  pathMatch: 'full'
+},
+{
+  path: 'sign-in',  // Ruta para el login
+  component: LoginComponent
+},
   {
-    path: '',
+    path: 'dashboard',
     component: AdminComponent,
+    // Apply AuthGuard to the entire dashboard
     children: [
       {
         path: 'dashboard',
@@ -155,14 +166,8 @@ const routes: Routes = [
         loadComponent: () => import('./demo/pages/operational/persona/persona-index/persona-index.component').then(m => m.PersonaIndexComponent)
       }
 
-
-
-
-
-
-
-
     ]
+
   },
   {
     path: '',
@@ -173,6 +178,11 @@ const routes: Routes = [
         loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
     ]
+  },
+   // Ruta para manejar cualquier otra URL no definida
+   {
+    path: '**',
+    redirectTo: 'sign-in'  // Cualquier ruta no definida redirige al login
   }
 ];
 

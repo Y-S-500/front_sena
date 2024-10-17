@@ -140,8 +140,6 @@ export class GeneralParameterService {
       });
     });
   }
-
-
   public saveMasiveAprendiz(ruta: String, data: any): Observable<any> {
     return this.http.post<any>(`${this.url}${ruta}/aprendizPersonas`, data, { headers: this.header });
   }
@@ -159,6 +157,13 @@ export class GeneralParameterService {
   //Controller Enum
   public getEnum(parametro: String): Observable<any> {
     return this.http.get<any>(`${this.url}Enums?endpoint=${parametro}`, { headers: this.header });
+  }
+
+
+  //login
+  Login(Data : any ) : Observable<any> {
+    return this.http.post(`${this.url}Usuario/LogIn`, Data);
+
   }
 
 
